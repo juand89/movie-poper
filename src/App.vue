@@ -1,44 +1,36 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+    <v-app-bar app elevate-on-scroll color="blue-grey lighten-2">
+      <v-toolbar-title class="white--text">
+        <router-link to="/" tag="span" style="cursor: pointer">
+          <v-btn class="mx-2" fab dark small color="gray">
+            <v-icon large color="orange">mdi-movie-roll</v-icon>
+          </v-btn>
+          <span class="hidden-sm-and-down">
+            Movie Poper
+          </span>
+        </router-link>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-flex xs8 sm6 md3 lg2 class="mt-7">
+        <v-text-field
+          prepend-inner-icon="mdi-magnify"
+          dense
+          solo
+          rounded
+          theme-light
+          clearable
+          label="Movie Name"
+          v-model="searchMovie"
+        ></v-text-field>
+      </v-flex>
+      <v-spacer class="hidden-md-and-up" />
+      <v-btn class="mx-2" fab dark small color="red darken-1">
+        <v-icon dark>mdi-heart</v-icon>
       </v-btn>
     </v-app-bar>
-
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
   </v-app>
 </template>
@@ -51,14 +43,18 @@ export default {
 
   data() {
     return {
-      movieList: []
+      movieList: [],
+      serachMovie: ''
     }
   },
   mounted() {
-    axios.get(`search/movie?api_key=${API_KEY}&query=test`).then(response => {
-      this.movieList = response.data
-      console.log(this.movieList)
-    }).catch(error => console.log(error))
-  }
-};
+    axios
+      .get(`search/movie?api_key=${API_KEY}&query=test`)
+      .then((response) => {
+        this.movieList = response.data
+        console.log(this.movieList)
+      })
+      .catch((error) => console.log(error))
+  },
+}
 </script>
