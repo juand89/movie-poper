@@ -1,11 +1,40 @@
 <template>
-  <v-col :cols="4">
-    <v-card>
-      <v-img :src="movie.poster_path" class="white--text align-end"
+  <v-flex md3 sm4 lg3 xl2 xs6>
+    <v-card color="indigo lighten-5" class="ma-2">
+      <v-img
+        :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-        height="200px">
-        {{ movie.title }}
+        class="white--text align-end items-center"
+      >
+        <v-card-title v-text="movie.title"></v-card-title>
       </v-img>
+      <v-card-actions>
+        <span>{{ getFomatDate }}</span>
+        <v-spacer></v-spacer>
+        <span class="pr-1">{{ movie.vote_average }}</span>
+        <v-icon color="yellow darken-2">mdi-star-circle</v-icon>
+        <v-btn icon color="pink">
+          <v-icon color="black">mdi-heart-outline</v-icon>
+        </v-btn>
+      </v-card-actions>
     </v-card>
-  </v-col>
+  </v-flex>
 </template>
+<script>
+export default {
+  props: {
+    movie: {
+      type: Object,
+      default: () => {},
+      required: true,
+    },
+  },
+  computed: {
+    getFomatDate() {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' }
+      const date = new Date(this.movie.release_date)
+      return date.toLocaleDateString('en-US', options)
+    },
+  },
+}
+</script>

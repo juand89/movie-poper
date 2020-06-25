@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MovieList />
+    <MovieList title="Discover Movies" :movieList="movieList" />
   </div>
 </template>
 <script>
@@ -9,5 +9,13 @@ export default {
   components: {
     MovieList,
   },
+  computed: {
+    movieList() {
+      return this.$store.state.movies
+    },
+  },
+  mounted() {
+    this.$store.dispatch('fetchDiscoverMovies')
+  }
 }
 </script>
