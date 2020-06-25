@@ -29,32 +29,20 @@
         <v-icon dark>mdi-heart</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import axios from 'axios'
-const API_KEY = '084ec3ab6e0e6458a794cbb76c41fba4'
 export default {
   name: 'App',
 
   data() {
     return {
-      movieList: [],
       serachMovie: ''
     }
-  },
-  mounted() {
-    axios
-      .get(`search/movie?api_key=${API_KEY}&query=test`)
-      .then((response) => {
-        this.movieList = response.data
-        console.log(this.movieList)
-      })
-      .catch((error) => console.log(error))
-  },
+  }
 }
 </script>
