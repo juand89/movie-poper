@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div
+    id="scroll"
+    class="px-3 overflow-y-scroll bg-white"
+    data-cy="scroll"
+    @scroll="infiniteScroll"
+    :style="{ height: innerHeight - 70 + 'px' }"
+  >
     <v-container>
       <h1 class="p-1">
         {{ title }}
@@ -21,11 +27,6 @@ export default {
   components: {
     MovieListItem,
   },
-  computed: {
-    searchResults() {
-      return this.$store.state.total_results
-    },
-  },
   props: {
     movieList: {
       type: Array,
@@ -37,5 +38,38 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      innerHeight: 0,
+      scrollY: 0
+    }
+  },
+  computed: {
+    searchResults() {
+      return this.$store.state.total_results
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  methods: {
+    async infiniteScroll() {
+      if(event.target.scrollTop + event.target.offsetHeight >= event.target.scrollHeight) {
+          this.$store.dispatch('fetchDiscoverMovies')
+      }
+    },
+    handleResize() {
+      this.innerHeight = window.innerHeight
+    },
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
+  },
 }
 </script>
+<style>
+#scroll {
+  overflow-y: scroll;
+}
+</style>
