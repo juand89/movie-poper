@@ -3,10 +3,11 @@ import Vuex from 'vuex'
 import axios from 'axios'
 const API_KEY = '084ec3ab6e0e6458a794cbb76c41fba4'
 Vue.use(Vuex)
-
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 export const store = new Vuex.Store({
   state: {
     movies: [],
+    movie: [],
     favorites: [],
     page: 1,
     total_pages: 0,
@@ -20,7 +21,6 @@ export const store = new Vuex.Store({
         )
         commit('setMovies', response.data)
         commit('setTotalPages', response.data.total_pages)
-        commit('setTotalResults', response.data.total_results)
         if (state.page < response.data.total_pages) commit('incrementPage')
       } catch (err) {
         console.error(err)
@@ -39,6 +39,14 @@ export const store = new Vuex.Store({
         console.error(err)
       }
     },
+    async fetchDetailsMovie({ commit }, id) {
+      try {
+        const response = await axios.get(`movie/${id}?api_key=${API_KEY}`)
+        commit('setMovie', response.data)
+      } catch (err) {
+        console.error(err)
+      }
+    }
   },
   mutations: {
     incrementPage(state) {
@@ -48,7 +56,10 @@ export const store = new Vuex.Store({
       state.page = 1
     },
     setMovies(state, payload) {
-      state.movies = payload.results
+      state.movies = state.movies.concat(payload.results)
+    },
+    setMovie(state, payload) {
+      state.movie = payload
     },
     setTotalPages(state, payload) {
       state.total_pages = payload
