@@ -7,7 +7,7 @@ axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 export const store = new Vuex.Store({
   state: {
     movies: [],
-    movie: [],
+    movie: {},
     favorites: [],
     page: 1,
     total_pages: 0,
@@ -81,6 +81,9 @@ export const store = new Vuex.Store({
     },
     setTotalResults(state, payload) {
       state.total_results = payload
+    },
+    resetMovie(state) {
+      state.movie = {}
     },
     resetTotalResults(state) {
       state.total_results = 0

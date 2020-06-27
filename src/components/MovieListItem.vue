@@ -5,7 +5,7 @@
         :lazy-src="require('../assets/blur-img.png')"
         transition="fade"
         :aspect-ratio="0.7"
-        @click="$router.push(`/movie/${movie.id}`)"
+        @click="onMovieSelect"
         :src="getMoviePicture"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         class="white--text align-end items-center"
@@ -60,6 +60,12 @@ export default {
         this.$store.commit('removeFavorite', this.movie.id)
       }
     },
+    onMovieSelect() {
+      if(this.$store.state.movie.id && this.$store.state.movie.id !== this.movie.id) {
+        this.$store.commit('resetMovie')
+      }
+      this.$router.push(`/movie/${this.movie.id}`)
+    }
   },
 }
 </script>

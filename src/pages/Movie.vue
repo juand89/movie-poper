@@ -132,7 +132,7 @@ export default {
       return ''
     },
     getMovieLanguages() {
-      if (this.movie.spoken_languages.length) {
+      if (this.movie.spoken_languages && this.movie.spoken_languages.length) {
         return Object.keys(this.movie.spoken_languages)
           .map((lang) => {
             return this.movie.spoken_languages[lang].name
@@ -142,7 +142,7 @@ export default {
       return 'Languages not available'
     },
     getMainProductionCountry() {
-      if (this.movie.production_countries.length) {
+      if (this.movie.production_countries && this.movie.production_countries.length) {
         return this.movie.production_countries[0].name
       }
       return 'Country not available'
