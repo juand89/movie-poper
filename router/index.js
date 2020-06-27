@@ -1,14 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import axios from 'axios'
 import Search from '@/pages/Search'
+import Movie from '@/pages/Movie'
 Vue.use(VueRouter)
-axios.defaults.baseURL =
-  'https://api.themoviedb.org/3/'
-export default new VueRouter({ 
-  routes: [{
-    path: '/',
-    name: 'list',
-    component: Search
-  }]
+
+export default new VueRouter({
+  routes: [
+    {
+      path: '/',
+      name: 'list',
+      component: Search,
+    },
+    {
+      path: '/movie/:id',
+      name: 'movie',
+      component: Movie,
+    },
+  ],
 })
