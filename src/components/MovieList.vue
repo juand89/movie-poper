@@ -10,7 +10,9 @@
       <h1 class="p-1">
         {{ title }}
       </h1>
-      <h3 v-if="searchResults">Search Results: {{ searchResults }}</h3>
+      <h3 v-if="searchResults && $route.name === 'list'">
+        Search Results: {{ searchResults }}
+      </h3>
       <v-layout row justify-space-evenly>
         <MovieListItem
           v-for="movie in movieList"
@@ -41,7 +43,7 @@ export default {
   data() {
     return {
       innerHeight: 0,
-      scrollY: 0
+      scrollY: 0,
     }
   },
   computed: {
@@ -55,12 +57,15 @@ export default {
   },
   methods: {
     async infiniteScroll() {
-      if(event.target.scrollTop + event.target.offsetHeight >= event.target.scrollHeight) {
-          if (this.searchResults) {
-            this.$store.dispatch('searchMovies')
-          } else {
-            this.$store.dispatch('fetchDiscoverMovies')
-          }
+      if (
+        event.target.scrollTop + event.target.offsetHeight >=
+        event.target.scrollHeight
+      ) {
+        if (this.searchResults) {
+          this.$store.dispatch('searchMovies')
+        } else {
+          this.$store.dispatch('fetchDiscoverMovies')
+        }
       }
     },
     handleResize() {
