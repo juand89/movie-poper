@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     page: 1,
     total_pages: 0,
     total_results: 0,
+    query: ''
   },
   actions: {
     async fetchDiscoverMovies({ state, commit }) {
@@ -26,10 +27,10 @@ export const store = new Vuex.Store({
         console.error(err)
       }
     },
-    async searchMovies({ state, commit }, query) {
+    async searchMovies({ state, commit }) {
       try {
         const response = await axios.get(
-          `search/movie?api_key=${API_KEY}&query=${query}&page=${state.page}`
+          `search/movie?api_key=${API_KEY}&query=${state.query}&page=${state.page}`
         )
         commit('setMovies', response.data)
         commit('setTotalPages', response.data.total_pages)
@@ -62,6 +63,9 @@ export const store = new Vuex.Store({
         state.movies = state.movies.concat(payload.results)
       }
     },
+    setQuery(state, query) {
+      state.query = query
+    },
     setMovie(state, payload) {
       state.movie = payload
     },
@@ -73,6 +77,9 @@ export const store = new Vuex.Store({
     },
     resetTotalResults(state) {
       state.total_results = 0
+    },
+    resetQuery(state) {
+      state.query = ''
     }
   },
 })

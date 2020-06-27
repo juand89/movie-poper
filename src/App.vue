@@ -51,13 +51,15 @@ export default {
     onMovieSearch() {
       this.loading = true
       this.$store.commit('resetPage')
-      this.$store.dispatch('searchMovies', this.searchMovie).then(() => {
+      this.$store.commit('setQuery', this.searchMovie)
+      this.$store.dispatch('searchMovies').then(() => {
         this.loading = false
       })
     },
     onClearSearch() {
       this.loading = true
       setTimeout(() => {
+        this.$store.commit('resetQuery')
         this.$store.commit('resetPage')
         this.$store.commit('resetTotalResults')
         this.$store.dispatch('fetchDiscoverMovies').then(() => {

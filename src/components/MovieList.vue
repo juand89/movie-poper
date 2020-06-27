@@ -56,7 +56,11 @@ export default {
   methods: {
     async infiniteScroll() {
       if(event.target.scrollTop + event.target.offsetHeight >= event.target.scrollHeight) {
-          this.$store.dispatch('fetchDiscoverMovies')
+          if (this.searchResults) {
+            this.$store.dispatch('searchMovies')
+          } else {
+            this.$store.dispatch('fetchDiscoverMovies')
+          }
       }
     },
     handleResize() {
