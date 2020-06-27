@@ -13,12 +13,7 @@
           <v-divider />
           <v-layout wrap>
             <v-flex class="img-holder" xl4 lg5 md5 sm6 xs12>
-              <v-img
-                :lazy-src="require('../assets/blur-img.png')"
-                transition="fade"
-                :aspect-ratio="0.7"
-                :src="getMoviePicture"
-              />
+              <img :src="getMoviePicture" />
             </v-flex>
             <v-flex xl8 lg7 md7 sm6 xs12 class="text-wrap">
               <v-card tile color="blue-grey darken-2">
@@ -45,7 +40,10 @@
                       <span class="white--text subtitle-2">
                         {{ getFormatRuntime }}
                       </span>
-                      <span class="mx-1 white--text subtitle-2">
+                      <span
+                        v-if="getMovieGenres"
+                        class="mx-1 white--text subtitle-2"
+                      >
                         |
                       </span>
                       <span class="white--text  subtitle-2">
@@ -59,12 +57,22 @@
                 <v-flex xl11 lg10 md11 sm12 xs12>
                   <v-card-text class="text--primary">
                     <h2 class="pb-2">Overview</h2>
-                    <p class="body-1 text-justify">{{ movie.overview }}</p>
+                    <p class="body-1 text-justify">
+                      {{
+                        movie.overview
+                          ? movie.overview
+                          : 'Overview not available'
+                      }}
+                    </p>
                     <h2 class="pb-2">Release</h2>
                     <v-flex row>
                       <v-icon class="pb-5 ml-2 mr-2">mdi-calendar</v-icon>
                       <p class="body-1 text-justify">
-                        {{ movie.release_date }}
+                        {{
+                          movie.release_date
+                            ? movie.release_date
+                            : 'Date not available'
+                        }}
                       </p>
                     </v-flex>
                     <h2 class="pb-2">Country</h2>
@@ -124,20 +132,20 @@ export default {
       return ''
     },
     getMovieLanguages() {
-      if (this.movie.spoken_languages) {
+      if (this.movie.spoken_languages.length) {
         return Object.keys(this.movie.spoken_languages)
           .map((lang) => {
             return this.movie.spoken_languages[lang].name
           })
           .join(', ')
       }
-      return ''
+      return 'Languages not available'
     },
     getMainProductionCountry() {
-      if (this.movie.production_countries) {
+      if (this.movie.production_countries.length) {
         return this.movie.production_countries[0].name
       }
-      return ''
+      return 'Country not available'
     },
     getMoviePicture() {
       if (this.movie.poster_path)
