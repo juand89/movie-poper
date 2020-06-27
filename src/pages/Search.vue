@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.movieList.length && this.searchQuery) {
+    if (!this.movieList.length && !this.searchQuery) {
       this.$store.dispatch('fetchDiscoverMovies')
     }
   },

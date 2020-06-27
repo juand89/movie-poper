@@ -50,15 +50,23 @@ export default {
 
   data() {
     return {
-      searchMovie: '',
       loading: false
+    }
+  },
+  computed: {
+    searchMovie: {
+      get() {
+        return this.$store.state.query
+      },
+      set(value) {
+        this.$store.commit('setQuery', value)
+      }
     }
   },
   methods: {
     onMovieSearch() {
       this.loading = true
       this.$store.commit('resetPage')
-      this.$store.commit('setQuery', this.searchMovie)
       this.$store.dispatch('searchMovies').then(() => {
         this.loading = false
       })
