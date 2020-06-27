@@ -17,9 +17,11 @@
           prepend-inner-icon="mdi-magnify"
           dense
           solo
-          rounded
-          theme-light
+          :loading="loading"
+          color="blue-grey darken-2"
           clearable
+          @click:clear="onClearSearch"
+          @keydown.enter="onMovieSearch"
           label="Movie Name"
           v-model="searchMovie"
         ></v-text-field>
@@ -41,7 +43,27 @@ export default {
 
   data() {
     return {
-      serachMovie: ''
+      searchMovie: '',
+      loading: false
+    }
+  },
+  methods: {
+    onMovieSearch() {
+      this.loading = true
+      this.$store.commit('resetPage')
+      this.$store.dispatch('searchMovies', this.searchMovie).then(() => {
+        this.loading = false
+      })
+    },
+    onClearSearch() {
+      this.loading = true
+      setTimeout(() => {
+        this.$store.commit('resetPage')
+        this.$store.commit('resetTotalResults')
+        this.$store.dispatch('fetchDiscoverMovies').then(() => {
+          this.loading = false
+        })
+      }, 500)
     }
   }
 }

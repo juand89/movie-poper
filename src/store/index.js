@@ -56,7 +56,11 @@ export const store = new Vuex.Store({
       state.page = 1
     },
     setMovies(state, payload) {
-      state.movies = state.movies.concat(payload.results)
+      if (state.page === 1) {
+        state.movies = payload.results
+      } else {
+        state.movies = state.movies.concat(payload.results)
+      }
     },
     setMovie(state, payload) {
       state.movie = payload
@@ -67,5 +71,8 @@ export const store = new Vuex.Store({
     setTotalResults(state, payload) {
       state.total_results = payload
     },
+    resetTotalResults(state) {
+      state.total_results = 0
+    }
   },
 })
