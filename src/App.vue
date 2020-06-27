@@ -6,13 +6,13 @@
           <v-btn class="mx-2" fab dark small color="gray">
             <v-icon large color="orange">mdi-movie-roll</v-icon>
           </v-btn>
-          <span class="hidden-sm-and-down">
+          <span :class="{ 'hidden-sm-and-down': $route.name === 'list' }">
             Movie Poper
           </span>
         </router-link>
       </v-toolbar-title>
       <v-spacer />
-      <v-flex xs8 sm6 md3 lg2 class="mt-7">
+      <v-flex v-if="$route.name !== 'favorites'" xs8 sm6 md3 lg2 class="mt-7">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
           dense
@@ -28,7 +28,8 @@
       </v-flex>
       <v-spacer class="hidden-md-and-up" />
       <v-btn
-        @click="$router.push('favorites')"
+        v-if="$route.name !== 'favorites'"
+        @click="$router.push({ path: '/favorites' })"
         class="mx-2"
         fab
         dark
@@ -50,7 +51,7 @@ export default {
 
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -60,8 +61,8 @@ export default {
       },
       set(value) {
         this.$store.commit('setQuery', value)
-      }
-    }
+      },
+    },
   },
   methods: {
     onMovieSearch() {
@@ -81,7 +82,7 @@ export default {
           this.loading = false
         })
       }, 500)
-    }
-  }
+    },
+  },
 }
 </script>
