@@ -15,8 +15,11 @@
           <v-divider />
           <v-layout wrap>
             <v-flex class="img-holder" xl4 lg5 md5 sm6 xs12>
-              <img
-                :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"
+              <v-img
+                :lazy-src="require('../assets/blur-img.png')"
+                transition="fade"
+                :aspect-ratio="0.70"
+                :src="getMoviePicture"
               />
             </v-flex>
             <v-flex xl8 lg7 md7 sm6 xs12 class="text-wrap">
@@ -133,6 +136,13 @@ export default {
         return this.movie.production_countries[0].name
       }
       return ''
+    },
+    getMoviePicture() {
+      if (this.movie.poster_path)
+        return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+      else if (this.movie.backdrop_path)
+        return `https://image.tmdb.org/t/p/w500${this.movie.backdrop_path}`
+      else return require('../assets/poster-not-available.jpg')
     },
   },
 }
