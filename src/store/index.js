@@ -63,6 +63,13 @@ export const store = new Vuex.Store({
         state.movies = state.movies.concat(payload.results)
       }
     },
+    setFavorite(state, payload) {
+      state.favorites.push(payload)
+    },
+    removeFavorite(state, movieId) {
+      const index = state.favorites.map(favorite => favorite.id).indexOf(movieId)
+      state.favorites.splice(index, 1)
+    },
     setQuery(state, query) {
       state.query = query
     },

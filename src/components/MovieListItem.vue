@@ -4,7 +4,7 @@
       <v-img
         :lazy-src="require('../assets/blur-img.png')"
         transition="fade"
-        :aspect-ratio="0.70"
+        :aspect-ratio="0.7"
         @click="$router.push(`/movie/${movie.id}`)"
         :src="getMoviePicture"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -17,15 +17,17 @@
         <v-spacer></v-spacer>
         <span class="pr-1">{{ movie.vote_average }}</span>
         <v-icon color="yellow darken-2">mdi-star-circle</v-icon>
-        <v-btn icon color="pink">
-          <v-icon color="black">mdi-heart-outline</v-icon>
-        </v-btn>
+        <FavoriteIcon :movie="movie" />
       </v-card-actions>
     </v-card>
   </v-flex>
 </template>
 <script>
+import FavoriteIcon from '../components/FavoriteIcon.vue'
 export default {
+  components: {
+    FavoriteIcon,
+  },
   props: {
     movie: {
       type: Object,
@@ -40,10 +42,24 @@ export default {
       return date.toLocaleDateString('en-US', options)
     },
     getMoviePicture() {
-      if (this.movie.poster_path) return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
-      else if (this.movie.backdrop_path) return `https://image.tmdb.org/t/p/w500${this.movie.backdrop_path}`
+      if (this.movie.poster_path)
+        return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
+      else if (this.movie.backdrop_path)
+        return `https://image.tmdb.org/t/p/w500${this.movie.backdrop_path}`
       else return require('../assets/poster-not-available.jpg')
-    }
-  }
+    },
+    getFavorite() {
+      return this.$store.state.favorites.filter((f) => f.id === this.movie.id)
+    },
+  },
+  methods: {
+    onFavoriteMovie() {
+      if (!this.getFavorite.length) {
+        this.$store.commit('setFavorite', this.movie)
+      } else {
+        this.$store.commit('removeFavorite', this.movie.id)
+      }
+    },
+  },
 }
 </script>

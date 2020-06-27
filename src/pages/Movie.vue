@@ -8,9 +8,7 @@
               <v-icon color="white">mdi-keyboard-backspace</v-icon>
             </v-btn>
             <v-spacer />
-            <v-btn icon color="pink">
-              <v-icon color="white">mdi-heart-outline</v-icon>
-            </v-btn>
+            <FavoriteIcon colorIcon="white" :movie="movie" />
           </v-card-actions>
           <v-divider />
           <v-layout wrap>
@@ -18,7 +16,7 @@
               <v-img
                 :lazy-src="require('../assets/blur-img.png')"
                 transition="fade"
-                :aspect-ratio="0.70"
+                :aspect-ratio="0.7"
                 :src="getMoviePicture"
               />
             </v-flex>
@@ -94,7 +92,11 @@
   </v-container>
 </template>
 <script>
+import FavoriteIcon from '../components/FavoriteIcon.vue'
 export default {
+  components: {
+    FavoriteIcon,
+  },
   created() {
     this.$store.dispatch('fetchDetailsMovie', this.$route.params.id)
   },
