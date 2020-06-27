@@ -27,7 +27,14 @@
         ></v-text-field>
       </v-flex>
       <v-spacer class="hidden-md-and-up" />
-      <v-btn class="mx-2" fab dark small color="red darken-1">
+      <v-btn
+        @click="$router.push('favorites')"
+        class="mx-2"
+        fab
+        dark
+        small
+        color="red darken-1"
+      >
         <v-icon dark>mdi-heart</v-icon>
       </v-btn>
     </v-app-bar>
