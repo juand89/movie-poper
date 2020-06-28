@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 const API_KEY = '084ec3ab6e0e6458a794cbb76c41fba4'
-// import router from '../../router'
+import router from '../../router'
 Vue.use(Vuex)
 axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 export const store = new Vuex.Store({
@@ -60,6 +60,9 @@ export const store = new Vuex.Store({
         setTimeout(() => {
           commit('toggleLoader')
         }, 250)
+        if (err.response.status === 404) {
+          router.push({ path: '/404', status: 404 })
+        }
         console.error(err)
       }
     },

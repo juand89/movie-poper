@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Search from '@/pages/Search'
 import Movie from '@/pages/Movie'
 import Favorites from '@/pages/Favorite'
+import NotFound from '@/pages/NotFound'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -21,6 +22,10 @@ export default new VueRouter({
       path: '/favorites',
       name: 'favorites',
       component: Favorites,
+    },
+    {
+      path: '*',
+      component: NotFound
     }
   ],
 })

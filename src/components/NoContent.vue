@@ -23,7 +23,10 @@
           </p>
         </v-row>
       </v-col>
-      <v-col cols="12" v-if="$route.name === 'list'">
+      <v-col
+        cols="12"
+        v-if="$route.name === 'list' || title === 'Page Not Found'"
+      >
         <v-row align="center" justify="center">
           <v-btn @click="onDiscoverMovies">
             <v-icon color="grey ligthen-1" left>mdi-refresh</v-icon>
@@ -55,9 +58,12 @@ export default {
   },
   methods: {
     onDiscoverMovies() {
-      this.$store.commit('resetQuery')
-      this.$store.dispatch('fetchDiscoverMovies')
-    }
-  }
+      if (this.title !== 'Page Not Found') {
+        this.$store.commit('resetQuery')
+        this.$store.dispatch('fetchDiscoverMovies')
+      }
+      this.$router.push('/')
+    },
+  },
 }
 </script>
