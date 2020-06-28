@@ -103,10 +103,9 @@ export default {
   background-color: white;
   z-index: 100;
   padding-top: 12px;
-  padding-left: 53px;
   padding-bottom: 10px;
-  margin-left: -60px;
-  width: 100vh;
+  margin-left: -10px;
+  width: inherit;
   top: 64px;
 }
 @media screen and (max-width: 960px) {
