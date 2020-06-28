@@ -3,7 +3,14 @@
     <v-app-bar app elevate-on-scroll color="blue-grey lighten-2">
       <v-toolbar-title class="white--text">
         <router-link to="/" tag="span" style="cursor: pointer">
-          <v-btn @click="onLogoClick()" class="mx-2" fab dark small color="gray">
+          <v-btn
+            @click="scrollToTop()"
+            class="mx-2"
+            fab
+            dark
+            small
+            color="gray"
+          >
             <v-icon large color="orange">mdi-movie-roll</v-icon>
           </v-btn>
           <span :class="{ 'hidden-sm-and-down': $route.name === 'list' }">
@@ -80,6 +87,7 @@ export default {
   methods: {
     onMovieSearch() {
       if (this.searchMovie && !this.loading) {
+        this.scrollToTop()
         this.loading = true
         this.$store.commit('resetPage')
         this.$store.dispatch('searchMovies').then(() => {
@@ -97,17 +105,19 @@ export default {
         this.$store.commit('resetTotalResults')
         this.$store.dispatch('fetchDiscoverMovies').then(() => {
           this.loading = false
+          this.scrollToTop()
         })
       }, 500)
     },
-    onLogoClick() {
+    scrollToTop() {
       this.$store.commit('setScrollPosition', 0)
-      if (document.getElementById('scroll')) document.getElementById('scroll').scrollTo(0, 0)
+      if (document.getElementById('scroll'))
+        document.getElementById('scroll').scrollTo(0, 0)
     },
     onFavIconClick() {
       this.$store.commit('setScrollPositionFav', 0)
       this.$router.push({ path: '/favorites' })
-    }
+    },
   },
 }
 </script>
@@ -121,6 +131,6 @@ export default {
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>
