@@ -60,7 +60,8 @@ export default {
       if (
         event.target.scrollTop + event.target.offsetHeight >=
           event.target.scrollHeight - 150 &&
-        !this.$store.state.loader
+        !this.$store.state.loader &&
+        this.$route.name === 'list'
       ) {
         if (this.searchResults) {
           this.$store.commit('toggleLoader')
@@ -69,7 +70,7 @@ export default {
             this.$store.commit('toggleLoader')
           }, 1000)
         } else {
-          this.$store.dispatch('fetchDiscoverMovies').then(() => {})
+          this.$store.dispatch('fetchDiscoverMovies')
         }
       }
     },
@@ -79,7 +80,11 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
-    this.$store.commit('setScrollPosition', this.scrollY)
+    if (this.title === 'Discover Movies') {
+      this.$store.commit('setScrollPosition', this.scrollY)
+    } else {
+      this.$store.commit('setScrollPositionFav', this.scrollY)
+    }
   },
 }
 </script>
