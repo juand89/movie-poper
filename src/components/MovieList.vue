@@ -59,12 +59,18 @@ export default {
     async infiniteScroll() {
       if (
         event.target.scrollTop + event.target.offsetHeight >=
-        event.target.scrollHeight
+          event.target.scrollHeight - 150 &&
+        !this.$store.state.loader
       ) {
         if (this.searchResults) {
+          this.$store.commit('toggleLoader')
           this.$store.dispatch('searchMovies')
+          setTimeout(() => {
+            this.$store.commit('toggleLoader')
+          }, 1000)
         } else {
-          this.$store.dispatch('fetchDiscoverMovies')
+          this.$store.dispatch('fetchDiscoverMovies').then(() => {
+          })
         }
       }
     },
