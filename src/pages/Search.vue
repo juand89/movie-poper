@@ -23,12 +23,19 @@ export default {
     },
     searchQuery() {
       return this.$store.state.query
-    }
+    },
   },
   mounted() {
     if (!this.movieList.length && !this.searchQuery) {
       this.$store.dispatch('fetchDiscoverMovies')
     }
+    this.$nextTick(() => {
+      if (this.$store.state.scroll_position) {
+        document
+          .getElementById('scroll')
+          .scrollTo(0, this.$store.state.scroll_position)
+      }
+    })
   },
 }
 </script>

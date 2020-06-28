@@ -2,7 +2,6 @@
   <div
     id="scroll"
     class="px-3 overflow-y-scroll bg-white"
-    data-cy="scroll"
     @scroll="infiniteScroll"
     :style="{ height: innerHeight - 70 + 'px' }"
   >
@@ -56,7 +55,8 @@ export default {
     this.handleResize()
   },
   methods: {
-    async infiniteScroll() {
+    async infiniteScroll(event) {
+      this.scrollY = document.getElementById('scroll').scrollTop
       if (
         event.target.scrollTop + event.target.offsetHeight >=
           event.target.scrollHeight - 150 &&
@@ -69,8 +69,7 @@ export default {
             this.$store.commit('toggleLoader')
           }, 1000)
         } else {
-          this.$store.dispatch('fetchDiscoverMovies').then(() => {
-          })
+          this.$store.dispatch('fetchDiscoverMovies').then(() => {})
         }
       }
     },
@@ -80,6 +79,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
+    this.$store.commit('setScrollPosition', this.scrollY)
   },
 }
 </script>

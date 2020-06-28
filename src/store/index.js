@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 const API_KEY = '084ec3ab6e0e6458a794cbb76c41fba4'
+// import router from '../../router'
 Vue.use(Vuex)
 axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 export const store = new Vuex.Store({
@@ -13,6 +14,7 @@ export const store = new Vuex.Store({
     total_pages: 0,
     total_results: 0,
     query: '',
+    scroll_position: 0,
     loader: false,
   },
   actions: {
@@ -78,6 +80,9 @@ export const store = new Vuex.Store({
       } else {
         state.movies = state.movies.concat(payload.results)
       }
+    },
+    setScrollPosition(state, position) {
+      state.scroll_position = position
     },
     setFavorite(state, payload) {
       state.favorites.push(payload)
