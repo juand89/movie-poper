@@ -29,6 +29,9 @@ export default {
     if (!this.movieList.length && !this.searchQuery) {
       this.$store.dispatch('fetchDiscoverMovies')
     }
+    if (localStorage.getItem('favorites') && !this.movieList.length ) {
+      this.$store.commit('addFavorites')
+    }
     this.$nextTick(() => {
       if (this.$store.state.scroll_position) {
         document

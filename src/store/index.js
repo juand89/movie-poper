@@ -84,14 +84,19 @@ export const store = new Vuex.Store({
     setScrollPosition(state, position) {
       state.scroll_position = position
     },
+    addFavorites(state) {
+      state.favorites = JSON.parse(localStorage.getItem('favorites'))
+    },
     setFavorite(state, payload) {
       state.favorites.push(payload)
+      localStorage.setItem('favorites', JSON.stringify(state.favorites))
     },
     removeFavorite(state, movieId) {
       const index = state.favorites
         .map((favorite) => favorite.id)
         .indexOf(movieId)
       state.favorites.splice(index, 1)
+      localStorage.setItem('favorites', JSON.stringify(state.favorites))
     },
     setQuery(state, query) {
       state.query = query
