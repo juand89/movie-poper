@@ -148,10 +148,13 @@ export default {
       return 'Country not available'
     },
     getMoviePicture() {
-      if (this.movie.poster_path)
+      if (this.$store.state.loader) {
+        return require('../assets/blur-img.png')
+      } else if (this.movie.poster_path) {
         return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
-      else if (this.movie.backdrop_path)
+      } else if (this.movie.backdrop_path) {
         return `https://image.tmdb.org/t/p/w500${this.movie.backdrop_path}`
+      }
       else return require('../assets/poster-not-available.jpg')
     },
   },
