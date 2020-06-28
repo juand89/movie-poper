@@ -79,13 +79,15 @@ export default {
   },
   methods: {
     onMovieSearch() {
-      this.loading = true
-      this.$store.commit('resetPage')
-      this.$store.dispatch('searchMovies').then(() => {
-        setTimeout(() => {
-          this.loading = false
-        }, 500)
-      })
+      if (this.searchMovie && !this.loading) {
+        this.loading = true
+        this.$store.commit('resetPage')
+        this.$store.dispatch('searchMovies').then(() => {
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
+        })
+      }
     },
     onClearSearch() {
       this.loading = true
