@@ -78,7 +78,7 @@ export const store = new Vuex.Store({
       if (state.page === 1) {
         state.movies = payload.results
       } else {
-        state.movies = state.movies.concat(payload.results)
+        state.movies = Array.from(new Set(state.movies.concat(payload.results)))
       }
     },
     setScrollPosition(state, position) {
