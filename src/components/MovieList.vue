@@ -3,16 +3,19 @@
     id="scroll"
     class="px-3 overflow-y-scroll bg-white"
     @scroll="infiniteScroll"
-    :style="{ height: innerHeight - 70 + 'px' }"
+    :style="{ height: innerHeight - 65 + 'px' }"
   >
     <v-container>
-      <h1 class="p-1">
-        {{ title }}
-      </h1>
-      <h3 v-if="searchResults && $route.name === 'list'">
-        Search Results: {{ searchResults }}
-      </h3>
-      <v-layout row justify-space-evenly>
+      <div class="position-title">
+        <h1 v-if="!searchResults" class="p-1">
+          {{ title }}
+        </h1>
+        <h2 v-if="searchResults && $route.name === 'list'">
+          Search Results: {{ searchResults.toLocaleString('en') }}
+        </h2>
+      </div>
+      <v-divider />
+      <v-layout class="margin-list" row justify-space-evenly>
         <MovieListItem
           v-for="movie in movieList"
           :key="movie.id"
@@ -91,5 +94,24 @@ export default {
 <style>
 #scroll {
   overflow-y: scroll;
+}
+.margin-list {
+  margin-top: 50px;
+}
+.position-title {
+  position: fixed;
+  background-color: white;
+  z-index: 100;
+  padding-top: 12px;
+  padding-left: 53px;
+  padding-bottom: 10px;
+  margin-left: -60px;
+  width: 100vh;
+  top: 64px;
+}
+@media screen and (max-width: 960px) {
+  .position-title {
+    top: 56px;
+  }
 }
 </style>
