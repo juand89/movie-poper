@@ -12,7 +12,7 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer />
-      <v-flex v-if="$route.name !== 'favorites'" xs8 sm6 md3 lg2 class="mt-7">
+      <v-flex v-if="$route.name === 'list'" xs8 sm6 md3 lg2 class="mt-7">
         <v-text-field
           prepend-inner-icon="mdi-magnify"
           dense
@@ -48,7 +48,9 @@
       />
     </v-app-bar>
     <v-main>
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </v-main>
   </v-app>
 </template>
@@ -73,7 +75,7 @@ export default {
     },
     loader() {
       return this.$store.state.loader
-    }
+    },
   },
   methods: {
     onMovieSearch() {
@@ -99,3 +101,16 @@ export default {
   },
 }
 </script>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+</style>
