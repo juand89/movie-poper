@@ -23,5 +23,14 @@ export default {
       return this.$store.state.favorites
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.$store.state.scroll_position_fav) {
+        document
+          .getElementById('scroll')
+          .scrollTo(0, this.$store.state.scroll_position_fav)
+      }
+    })
+  }
 }
 </script>

@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     total_results: 0,
     query: '',
     scroll_position: 0,
+    scroll_position_fav: 0,
     loader: false,
   },
   actions: {
@@ -86,6 +87,9 @@ export const store = new Vuex.Store({
     },
     setScrollPosition(state, position) {
       state.scroll_position = position
+    },
+    setScrollPositionFav(state, position) {
+      state.scroll_position_fav = position
     },
     addFavorites(state) {
       state.favorites = JSON.parse(localStorage.getItem('favorites'))

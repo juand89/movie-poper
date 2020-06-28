@@ -3,7 +3,7 @@
     <v-app-bar app elevate-on-scroll color="blue-grey lighten-2">
       <v-toolbar-title class="white--text">
         <router-link to="/" tag="span" style="cursor: pointer">
-          <v-btn class="mx-2" fab dark small color="gray">
+          <v-btn @click="onLogoClick()" class="mx-2" fab dark small color="gray">
             <v-icon large color="orange">mdi-movie-roll</v-icon>
           </v-btn>
           <span :class="{ 'hidden-sm-and-down': $route.name === 'list' }">
@@ -29,7 +29,7 @@
       <v-spacer class="hidden-md-and-up" />
       <v-btn
         v-if="$route.name !== 'favorites'"
-        @click="$router.push({ path: '/favorites' })"
+        @click="onFavIconClick"
         class="mx-2"
         fab
         dark
@@ -100,6 +100,14 @@ export default {
         })
       }, 500)
     },
+    onLogoClick() {
+      this.$store.commit('setScrollPosition', 0)
+      if (document.getElementById('scroll')) document.getElementById('scroll').scrollTo(0, 0)
+    },
+    onFavIconClick() {
+      this.$store.commit('setScrollPositionFav', 0)
+      this.$router.push({ path: '/favorites' })
+    }
   },
 }
 </script>
