@@ -38,6 +38,14 @@
       >
         <v-icon dark>mdi-heart</v-icon>
       </v-btn>
+      <v-progress-linear
+        :active="loader"
+        :indeterminate="true"
+        height="5"
+        absolute
+        bottom
+        color="blue accent-4"
+      />
     </v-app-bar>
     <v-main>
       <router-view />
@@ -63,13 +71,18 @@ export default {
         this.$store.commit('setQuery', value)
       },
     },
+    loader() {
+      return this.$store.state.loader
+    }
   },
   methods: {
     onMovieSearch() {
       this.loading = true
       this.$store.commit('resetPage')
       this.$store.dispatch('searchMovies').then(() => {
-        this.loading = false
+        setTimeout(() => {
+          this.loading = false
+        }, 500)
       })
     },
     onClearSearch() {

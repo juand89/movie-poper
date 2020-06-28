@@ -12,18 +12,24 @@ export const store = new Vuex.Store({
     page: 1,
     total_pages: 0,
     total_results: 0,
-    query: ''
+    query: '',
+    loader: false,
   },
   actions: {
     async fetchDiscoverMovies({ state, commit }) {
       try {
+        commit('toggleLoader')
         const response = await axios.get(
           `discover/movie?api_key=${API_KEY}&page=${state.page}`
         )
         commit('setMovies', response.data)
         commit('setTotalPages', response.data.total_pages)
         if (state.page < response.data.total_pages) commit('incrementPage')
+        setTimeout(() => {
+          commit('toggleLoader')
+        }, 1000)
       } catch (err) {
+        commit('toggleLoader')
         console.error(err)
       }
     },
@@ -42,12 +48,19 @@ export const store = new Vuex.Store({
     },
     async fetchDetailsMovie({ commit }, id) {
       try {
+        commit('toggleLoader')
         const response = await axios.get(`movie/${id}?api_key=${API_KEY}`)
         commit('setMovie', response.data)
+        setTimeout(() => {
+          commit('toggleLoader')
+        }, 250)
       } catch (err) {
+        setTimeout(() => {
+          commit('toggleLoader')
+        }, 250)
         console.error(err)
       }
-    }
+    },
   },
   mutations: {
     incrementPage(state) {
@@ -55,6 +68,9 @@ export const store = new Vuex.Store({
     },
     resetPage(state) {
       state.page = 1
+    },
+    toggleLoader(state) {
+      state.loader = !state.loader
     },
     setMovies(state, payload) {
       if (state.page === 1) {
@@ -67,7 +83,9 @@ export const store = new Vuex.Store({
       state.favorites.push(payload)
     },
     removeFavorite(state, movieId) {
-      const index = state.favorites.map(favorite => favorite.id).indexOf(movieId)
+      const index = state.favorites
+        .map((favorite) => favorite.id)
+        .indexOf(movieId)
       state.favorites.splice(index, 1)
     },
     setQuery(state, query) {
