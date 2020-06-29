@@ -28,6 +28,7 @@ export const store = new Vuex.Store({
         commit('setMovies', response.data)
         commit('setTotalPages', response.data.total_pages)
         if (state.page < response.data.total_pages) commit('incrementPage')
+        // use set time out to show loading animation on fast network
         setTimeout(() => {
           commit('toggleLoader')
         }, 1000)
@@ -54,10 +55,12 @@ export const store = new Vuex.Store({
         commit('toggleLoader')
         const response = await axios.get(`movie/${id}?api_key=${API_KEY}`)
         commit('setMovie', response.data)
+        // use set time out to show loading animation on fast network
         setTimeout(() => {
           commit('toggleLoader')
         }, 250)
       } catch (err) {
+        // use set time out to show loading animation on fast network
         setTimeout(() => {
           commit('toggleLoader')
         }, 250)

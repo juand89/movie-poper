@@ -69,6 +69,7 @@ export default {
         if (this.searchResults) {
           this.$store.commit('toggleLoader')
           this.$store.dispatch('searchMovies')
+          // use set time out to show loading animation on fast network
           setTimeout(() => {
             this.$store.commit('toggleLoader')
           }, 1000)

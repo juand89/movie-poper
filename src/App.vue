@@ -91,6 +91,7 @@ export default {
         this.loading = true
         this.$store.commit('resetPage')
         this.$store.dispatch('searchMovies').then(() => {
+          // use set time out to show loading animation on fast network
           setTimeout(() => {
             this.loading = false
           }, 500)
@@ -99,6 +100,7 @@ export default {
     },
     onClearSearch() {
       this.loading = true
+      // use set time out to show loading animation on fast network
       setTimeout(() => {
         this.$store.commit('resetQuery')
         this.$store.commit('resetPage')
