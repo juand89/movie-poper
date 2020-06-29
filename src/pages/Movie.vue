@@ -13,7 +13,10 @@
           <v-divider />
           <v-layout wrap>
             <v-flex class="img-holder" xl4 lg5 md5 sm6 xs12>
-              <img :src="getMoviePicture" />
+              <v-lazy-image
+                :src="getMoviePicture"
+                :src-placeholder="require('../assets/blur-img.png')"
+              />
             </v-flex>
             <v-flex xl8 lg7 md7 sm6 xs12 class="text-wrap">
               <v-card tile color="blue-grey darken-2">
@@ -25,16 +28,23 @@
                         <span
                           class="grey--text text--lighten-1 text-h5 font-weight-bold"
                         >
-                          {{ `(${getYear})` }}
+                          {{ getYear }}
                         </span>
                       </span>
                     </v-col>
                     <v-col cols="12">
-                      <v-icon color="yellow darken-2">mdi-star</v-icon>
+                      <v-icon v-if="movie.vote_average" color="yellow darken-2">mdi-star</v-icon>
                       <span class="mx-1 white--text subtitle-2">
-                        {{ `${movie.vote_average} (${movie.vote_count})` }}
+                        {{
+                          movie.vote_average
+                            ? `${movie.vote_average} (${movie.vote_count})`
+                            : ''
+                        }}
                       </span>
-                      <span class="mx-1 white--text subtitle-2">
+                      <span
+                        v-if="movie.vote_average"
+                        class="mx-1 white--text subtitle-2"
+                      >
                         |
                       </span>
                       <span class="white--text subtitle-2">
@@ -100,10 +110,12 @@
   </v-container>
 </template>
 <script>
+import VLazyImage from 'v-lazy-image'
 import FavoriteIcon from '../components/FavoriteIcon.vue'
 export default {
   components: {
     FavoriteIcon,
+    VLazyImage,
   },
   created() {
     this.$store.dispatch('fetchDetailsMovie', this.$route.params.id)
@@ -114,12 +126,14 @@ export default {
     },
     getYear() {
       const date = new Date(this.movie.release_date)
-      return date.getFullYear()
+      if (date.getFullYear()) return `${date.getFullYear()}`
+      return ''
     },
     getFormatRuntime() {
       const hours = Math.floor(this.movie.runtime / 60)
       const minutes = this.movie.runtime % 60
-      return `${hours}h ${minutes}min`
+      if (hours && minutes) return `${hours}h ${minutes}min`
+      return ''
     },
     getMovieGenres() {
       if (this.movie.genres) {
@@ -142,20 +156,22 @@ export default {
       return 'Languages not available'
     },
     getMainProductionCountry() {
-      if (this.movie.production_countries && this.movie.production_countries.length) {
+      if (
+        this.movie.production_countries &&
+        this.movie.production_countries.length
+      ) {
         return this.movie.production_countries[0].name
       }
       return 'Country not available'
     },
     getMoviePicture() {
-      if (this.$store.state.loader) {
-        return require('../assets/blur-img.png')
-      } else if (this.movie.poster_path) {
+      if (this.movie.poster_path) {
         return `https://image.tmdb.org/t/p/w500${this.movie.poster_path}`
       } else if (this.movie.backdrop_path) {
         return `https://image.tmdb.org/t/p/w500${this.movie.backdrop_path}`
-      }
-      else return require('../assets/poster-not-available.jpg')
+      } else if (!this.$store.state.loader)
+        return require('../assets/poster-not-available.jpg')
+      return ''
     },
   },
 }
@@ -164,6 +180,13 @@ export default {
 img {
   width: 100%;
   height: 100%;
+}
+.v-lazy-image {
+  filter: blur(10px);
+  transition: filter 0.7s;
+}
+.v-lazy-image-loaded {
+  filter: blur(0);
 }
 @media screen and (max-width: 600px) {
   .img-holder {
