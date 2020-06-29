@@ -135,4 +135,7 @@ export default {
 .fade-leave-active {
   opacity: 0;
 }
+.break-words {
+  word-break: break-word !important;
+}
 </style>

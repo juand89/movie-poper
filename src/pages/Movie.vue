@@ -23,7 +23,7 @@
                 <v-card-title>
                   <v-row no-gutters>
                     <v-col cols="12">
-                      <span class="white--text font-weight-bold text-h4">
+                      <span class="white--text font-weight-bold text-h4 break-words">
                         {{ movie.title }}
                         <span
                           class="grey--text text--lighten-1 text-h5 font-weight-bold"
@@ -32,7 +32,7 @@
                         </span>
                       </span>
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="12" class="break-words">
                       <v-icon v-if="movie.vote_average" color="yellow darken-2">mdi-star</v-icon>
                       <span class="mx-1 white--text subtitle-2">
                         {{
@@ -126,7 +126,7 @@ export default {
     },
     getYear() {
       const date = new Date(this.movie.release_date)
-      if (date.getFullYear()) return `${date.getFullYear()}`
+      if (date.getFullYear()) return `(${date.getFullYear()})`
       return ''
     },
     getFormatRuntime() {

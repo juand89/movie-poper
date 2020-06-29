@@ -16,7 +16,7 @@
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
             class="white--text align-end items-center"
           >
-            <v-card-title v-text="movie.title"></v-card-title>
+            <v-card-title class="break-words" v-text="movie.title"></v-card-title>
           </v-img>
           <v-card-actions>
             <span>{{ getFomatDate }}</span>
