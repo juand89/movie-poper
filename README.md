@@ -1,4 +1,11 @@
-# movie-poper
+# Movie Poper
+### Description
+Movie Poper allows you to discover and search a wide catalog of movies. It also allows you conveniently save movies as favorites for easy access later.
+
+![](https://i.imgur.com/ETNm7FV.jpg)
+
+### About
+Movie poper is a website made using Vue JS, Vuetify, Axios and TMDb  API(free movie database).
 
 ## Project setup
 ```
@@ -14,11 +21,3 @@ yarn serve
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
