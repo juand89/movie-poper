@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "/",
+  publicPath: "/movie-poper/",
   outputDir: "docs",
   "transpileDependencies": [
     "vuetify"
